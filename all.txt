@@ -1,0 +1,474 @@
+// ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+
+/*
+var as = as || {};
+
+as = fuction(){
+
+	return 
+} 
+*/
+
+/**
+ * animation-stepper
+ * Utility library that manages javascript animations in the UI
+ * @version v1.2.0 - 2017-12-14
+ * @link https://github.com/ajsoriar/animation-stepper
+ * @author Andres J. Soria R. <ajsoriar@gmail.com>
+ * @license MIT License, http://www.opensource.org/licenses/MIT
+ */
+ 
+(function() {
+
+    "use strict";
+
+    // window.AS.mainAnimation.flags.executeDefaultFunc = false;
+
+    window.AS = {
+        //mainAnimationID: null,
+
+        mainAnimation: {
+            id: null,
+            defaultFunction: function() {
+              if ( this.flags.executeDefaultFunc ){
+                console.log(Date.now());
+              }
+
+            },
+            flags:{
+              executeDefaultFunc:true //,
+              //executeAttachedFunc:true
+            },
+            attachedFuncs: [] // array of functions attached to main animation that should be executed.
+
+        },
+        //arrOfActions: [], // Actions executed by 
+        //arrOfAnimations: [],
+        //onAnimationStep: function(){ }
+
+        attachedAnimations: {
+
+            // animation func structure
+
+            /*
+
+            {
+              id: null;
+              func: null;
+              duration: null;
+            }
+
+            */
+        }
+
+    };
+
+    // ------------------
+    // Internal 
+    // ------------------
+
+    var requestId = 0;
+
+    var animationStartTime = 0;
+/*
+    var startMainAnimation = function() {
+
+       // AS.mainAnimation = 
+    };
+*/
+    function animate(time) {
+      //document.getElementById("animated").style.left = (time - animationStartTime) % 2000 / 4 + "px";
+
+      AS.mainAnimation.defaultFunction();
+      //AS.mainAnimation.attachedFunctions(); // Execute attached functios
+
+      executeFuncs( window.AS.mainAnimation.arrOfFuncs ); // ececutes functions in main threat
+
+
+      //executeFuncs( window.AS.attachedAnimations.arrOfFuncs ); 
+
+      requestId = window.requestAnimationFrame(animate);
+    }
+
+    function executeFuncs( funcsArray ) {
+        if ( funcsArray === undefined || funcsArray.length === 0 ) return
+
+        var lon = funcsArray.length;
+
+        for ( var i = 0; i < lon; i++ ){
+            var f = funcsArray[i];
+            f();
+        }
+    }
+
+    function start() {
+      //animationStartTime = window.performance.now();
+      animationStartTime = Date.now();
+      requestId = window.requestAnimationFrame(animate);
+    }
+
+    function stop() {
+      if (requestId)
+        window.cancelAnimationFrame(requestId);
+      requestId = 0;
+    }
+
+    //mainAnimationID
+
+    function attachFunctionToMainAnimation() {
+
+    }
+
+    function attachFunctionToAnimation() {
+      
+    }
+
+    // ------------------
+    // Public
+    // ------------------
+
+    AS.init = function ( el ) {
+
+        console.log("AS.init()");
+
+        /*
+        if (!el){
+          this.createBoard();
+        } else {
+          this.el = document.getElementById( el );
+        }
+        */
+
+        //startMainAnimation();
+        //this.
+        start();
+
+        return this
+    };
+/*
+    AS.start = function() {
+
+    };
+
+    AS.stop = function() { // Stops all
+      
+    };
+*/
+    /*
+    AS.getLineString = function (idString,x1,y1,x2,y2,weight,color,opacity, roundBorder, longSombra, colSombra){
+
+    };
+
+    AS.getFastLineString = function (x1,y1,x2,y2,weight,color){
+
+    };
+    */
+
+    /*
+    AS.createAnimation = function() {
+
+    };
+
+    */
+
+    AS.attachAnimation = function( func, funcID, targetID ) {
+
+        if ( funcID === null ) {
+
+            //console.error("funcID is needed!");
+        }
+
+        if ( target != null ){
+
+            // Search target
+
+            if ( findTarget( targetID )  ) {
+
+                attachFunctionToAnimation( targetID, func );
+
+            } else {
+                // error!
+
+                //console.error("targetID was specified but not found!");
+            }
+
+            return
+        } 
+        
+        // Attach function to main animation 
+
+        attachFunctionToMainAnimation( func );
+        
+    };
+
+})();
+
+// ----------------------------------------------------------------------
+// myStuff.js
+// ----------------------------------------------------------------------
+
+AS.init();
+
+// ----------------------------------------------------------------------
+// demo.html
+// ----------------------------------------------------------------------
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <title>Script-based animation using requestAnimationFrame</title>
+        <style>
+
+            body {
+                background-color: black;
+            }
+
+            div { 
+                position: absolute; 
+                left: 10px; 
+                padding: 50px;
+                background: rgb(31, 31, 31); 
+                color: rgb(77, 77, 77) 
+            }
+
+        </style>
+
+        <script>
+                
+            /*
+            Opera engineer Erik Möller wrote about rAF and developed a polyfill that better handles 
+            browsers without native support. You can read about it, but basically his code will choose 
+            a delay of between 4ms and 16ms in order to more closely match 60fps. Here it is, in case 
+            you’d like to use it. Note it uses the standard method name. I have also fixed the cancel* 
+            method’s name, as it has changed in WebKit.
+            */
+
+            /*
+            (function() {
+                var lastTime = 0;
+                var vendors = ['webkit', 'moz'];
+                for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+                    window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+                    window.cancelAnimationFrame =
+                    window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+                }
+
+                if (!window.requestAnimationFrame)
+                    window.requestAnimationFrame = function(callback, element) {
+                        var currTime = new Date().getTime();
+                        var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                        var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+                        timeToCall);
+                        lastTime = currTime + timeToCall;
+                        return id;
+                    };
+
+                if (!window.cancelAnimationFrame)
+                    window.cancelAnimationFrame = function(id) {
+                        clearTimeout(id);
+                    };
+            }());
+            */
+
+            (function() {
+                var lastTime = 0,
+                    vendors = ['ms', 'moz', 'webkit', 'o'],
+                    x,
+                    length,
+                    currTime,
+                    timeToCall;
+
+                for(x = 0, length = vendors.length; x < length && !window.requestAnimationFrame; ++x) {
+                    window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+                    window.cancelAnimationFrame = 
+                    window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+                }
+
+                if (!window.requestAnimationFrame)
+                    window.requestAnimationFrame = function(callback, element) {
+                        currTime = new Date().getTime();
+                        timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                        lastTime = currTime + timeToCall;
+                        return window.setTimeout(function() { callback(currTime + timeToCall); }, 
+                        timeToCall);
+                    };
+
+                if (!window.cancelAnimationFrame)
+                    window.cancelAnimationFrame = function(id) {
+                        clearTimeout(id);
+                    };
+            }());
+
+            // requestAnimationFrame polyfill ends here.
+
+        </script>
+
+    </head>
+    <body>
+
+        <div id="root"></div>
+        <div id="animated">Hello there.</div>
+        <script type="text/javascript" src="animation-stepper.js"></script>
+        <script type="text/javascript" src="myStuff.js"></script>
+
+    </body>
+
+</html>
+
+
+<script>
+
+
+
+    var requestId = 0;
+
+    function animate(time) {
+    document.getElementById("animated").style.left =
+        (time - animationStartTime) % 2000 / 4 + "px";
+    requestId = window.requestAnimationFrame(animate);
+    }
+
+    function start() {
+    //animationStartTime = window.performance.now();
+    animationStartTime = Date.now();
+    requestId = window.requestAnimationFrame(animate);
+    }
+    function stop() {
+    if (requestId)
+        window.cancelAnimationFrame(requestId);
+    requestId = 0;
+    }
+
+
+<button onclick="start()">Click me to start!</button>
+<button onclick="stop()">Click me to stop!</button>
+
+https://www.w3.org/TR/animation-timing/
+
+
+// ----------------------------------------------------------------------
+// code.js
+// ----------------------------------------------------------------------
+
+function inOutQuad(n) {
+    n *= 2;
+    if (n < 1) return 0.5 * n * n;
+    return -0.5 * (--n * (n - 2) - 1);
+}
+
+window.myFunction = function( value ) {
+	//console.log("Do it! stop:", window.stop );
+    
+    if ( value === 'CANCEL-PREVIOWS' ){
+    	console.log("btn. Cancel previous and launch");
+    	startAnimation($('#thing'));
+    }
+   
+    if ( value === 'IF-PREVIOUS-FINISHED' ){
+        if ( window.stop != false ) {
+        	startAnimation($('#thing'));
+        }else{
+        	console.log("btn. Previous is running so can't launch");
+        }
+    }
+    
+    if ( value === 'ADD-TO-QUEUE'){
+    	window.queue++;
+    }
+}
+
+window.queue = 0;
+
+window.stop = false;
+
+var animation = {};
+animation.afterLaunch = function(){
+	console.log("animation.afterLaunch!");
+};
+animation.whenFinished = function(){
+	console.log("animation.whenFinished!");
+    
+    //check the queue
+    if ( window.queue != 0) {
+    	window.queue--;
+        requestAnimationFrame(startAnim);
+    }
+};
+animation.onEveryStep = function(){
+	console.log("animation.onEveryStep!");
+};
+
+function startAnimation(domEl) {
+
+	animation.afterLaunch();
+
+	window.stop = false;
+    
+    // animating x (margin-left) from 20 to 300, for example
+    var startx = 20;
+    var destx = 300;
+    var duration = 2000; //5000
+    var start = null;
+    var end = null;
+
+    //      (1)    (2)    (3)    (4)
+    //   1------2------3------4------5
+    //  0.0s   0.5s   1.0s   1.5s   2.0s
+    //  0ms    500ms  1000ms 1500ms 2000ms
+
+    var numOfSteps = 5;
+    var stepTime = duration / (numOfSteps - 1); // 2000/4 = 500ms
+    var stepfunction = function(stepNum, stepTime) {
+        console.log("doit!", stepNum, " - ", stepTime);
+    }
+    var stepsCount = 0;
+    var stepsTimes = [];
+    
+    // calculate steps times...
+    stepsTimes[0] = 0;
+    for (var i = 1; i < numOfSteps; i++) {
+        stepsTimes[i] = stepsTimes[i - 1] + stepTime;
+    }
+
+    function startAnim(timeStamp) {
+        console.log(timeStamp);
+        start = timeStamp;
+        end = start + duration;
+        draw(timeStamp);
+    }
+
+    function draw(now) {
+    
+        var t = now - start;
+        if (t >= stepsTimes[stepsCount]) {
+            stepfunction(stepsCount + 1, t);
+            stepsCount++;
+            animation.onEveryStep();
+        }
+
+        if (window.stop) {
+        	animation.whenFinished();
+            return
+        };
+        
+        if (now - start >= duration) window.stop = true;
+        
+        var p = (now - start) / duration;
+        val = inOutQuad(p);
+        x = startx + (destx - startx) * val;
+        $(domEl).css('margin-left', `${x}px`);
+        requestAnimationFrame(draw);
+    }
+
+    requestAnimationFrame(startAnim);
+}
+
+startAnimation($('#thing'))
