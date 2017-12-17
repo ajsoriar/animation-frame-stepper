@@ -92,6 +92,7 @@ as = fuction(){
         }
     
         function start() {
+          //animationStartTime = window.performance.now();
           animationStartTime = Date.now();
           requestId = window.requestAnimationFrame(animate);
         }
@@ -101,8 +102,10 @@ as = fuction(){
             window.cancelAnimationFrame(requestId);
           requestId = 0;
         }
-
-        function attachFunctionToMainAnimation( func ) {
+    
+        //mainAnimationID
+    
+        function attachFunctionToMainAnimation() {
     
         }
     
@@ -157,47 +160,34 @@ as = fuction(){
         };
     
         */
-
-        /*
-
-        // AS.attachAnimation() 
-        // Ussage example
-
-            AS.attachAnimation( function() {
-                    console.log( "! "+ Date.now());
-                },
-                "funcAndres",
-                null
-            );
-        */
     
-        AS.attachAnimation = function( func, funcID, animationID ) {
+        AS.attachAnimation = function( func, funcID, targetID ) {
     
             if ( funcID === null ) {
     
                 //console.error("funcID is needed!");
             }
     
-            if ( animationID != null ){ // If animation ID was specified ...
+            if ( target != null ){
     
                 // Search target
     
-                if ( findTarget( animationID )  ) {
+                if ( findTarget( targetID )  ) {
     
-                    attachFunctionToAnimation( animationID, func );
+                    attachFunctionToAnimation( targetID, func );
     
                 } else {
                     // error!
     
-                    //console.error("animationID was specified but not found!");
+                    //console.error("targetID was specified but not found!");
                 }
     
                 return
-            }
+            } 
             
             // Attach function to main animation 
     
-            attachFunctionToMainAnimation( animationID, func );
+            attachFunctionToMainAnimation( func );
             
         };
     
