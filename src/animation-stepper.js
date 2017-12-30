@@ -134,15 +134,15 @@ window.defaultAnimationStructure = {
                 console.log(" ");
                 console.log("   - animationData.currentStep:", animationData.currentStep );
                 console.log("   - animationData.stepsNum:", animationData.stepsNum );
-                console.log("   - AS.mainAnimation.repeatForever:", AS.mainAnimation.repeatForever );
+                console.log("   - AS.mainAnimation.repeatForever:", animationData.repeatForever );
 
                 // (1) execute animation func
-                animationData.func();
+                animationData.func( animationData );
 
                 // (2) execute step func
                 var f = animationData.stepsFuncs[ animationData.currentStep - 1];
                 if ( typeof f != 'function') f = animationData.stepsFuncs[ animationData.currentStep - 1].func;
-                f();
+                f( animationData );
             }
 
             if ( animationData.status === 0) { // Never executed

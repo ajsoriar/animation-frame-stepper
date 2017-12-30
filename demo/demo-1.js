@@ -9,6 +9,9 @@ function start() {
     //requestId = window.requestAnimationFrame(animate);
 
     AS.startByName("Animation-1");
+
+    x = startx + (destx - startx) * val;
+    $(domEl).css('margin-left', `${x}px`);
 }
 
 function stop() {
@@ -52,8 +55,9 @@ AS.attachAnimation({
     repeatForever: false,
     repeatTimes: 0,
     currentStep: null,
-    func: function() { 
-        console.log("Andres animation function!");
+    func: function( _animation ) {
+        console.log("Andres animation function! _animation:", _animation );
+        window.domEl.css('margin-left', ( _animation.currentStep * 20 ) +"px");
     },
     stepsFuncs: [
         {
@@ -124,6 +128,8 @@ AS.attachAnimation({
         //console.log( "'"+ AS.current.animationName +"' starts now!");
         //console.log( "'"+ AS_PROPS.animationName +"' starts now!");
         console.log( "Andres amimation starts now!");
+
+        window.domEl = $('#animated');
     },
     whenFinish: function() { 
         //console.log( "'"+ AS.current.animationName +"' ends now!");
