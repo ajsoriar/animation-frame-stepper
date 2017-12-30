@@ -18,7 +18,7 @@ window.defaultAnimationStructure = {
     stepStartTime: null,
     stepsNum: 2,
     milisecondsStep: 2000,
-    ellepsedTime: 0,
+    elapsedTime: 0,
     repeatForever: false,
     repeatTimes: 4,
     currentStep: null,
@@ -29,7 +29,7 @@ window.defaultAnimationStructure = {
     ],
     autodestroy: true, // Automatically removes the animation object and functions when the animation finishes
     onStart: function() { console.log("Start...") },
-    onFinish: function() { console.log("...end!") },
+    whenFinish: function() { console.log("...end!") },
     status: 0, // (0) Stopped, (1) On going.
 };
 
@@ -107,11 +107,12 @@ window.defaultAnimationStructure = {
                 var defaultAnimationStructure = {
                     id: null,
                     name: "Animation Object",
+                    label: null,
                     description: "Animation Object Description",
                     duration: null,
                     stepsNum: 2,
                     milisecondsStep: 250,
-                    ellepsedTime: 0,
+                    elapsedTime: 0,
                     repeatForever: false,
                     repeatTimes: 4,
                     repeatCounter: 0,
@@ -123,17 +124,33 @@ window.defaultAnimationStructure = {
                     ],
                     autodestroy: true, // Automatically removes the animation object and functions when the animation finishes
                     onStart: function() { console.log("Start...") },
-                    onFinish: function() { console.log("...end!") },
+                    whenFinish: function() { console.log("...end!") },
                     status: 0, // (0) Never executed, (1) On going. (2) Stopped
                 }
             */
+
+            function executeStep( animationData ){
+
+                console.log(" ");
+                console.log("   - animationData.currentStep:", animationData.currentStep );
+                console.log("   - animationData.stepsNum:", animationData.stepsNum );
+                console.log("   - AS.mainAnimation.repeatForever:", AS.mainAnimation.repeatForever );
+
+                // (1) execute animation func
+                animationData.func();
+
+                // (2) execute step func
+                var f = animationData.stepsFuncs[ animationData.currentStep - 1];
+                if ( typeof f != 'function') f = animationData.stepsFuncs[ animationData.currentStep - 1].func;
+                f();
+            }
 
             if ( animationData.status === 0) { // Never executed
 
                 console.log(" - Never executed!");
 
                 // init timestamp
-                animationData.stepStartTime = AS.timestamp;
+                animationData.stepStartTime = AS.mainAnimation.timestamp;
 
                 animationData.onStart();
 
@@ -141,53 +158,80 @@ window.defaultAnimationStructure = {
                 if ( animationData.stepsNum === null ) animationData.stepsNum = animationData.stepsFuncs.length;
                 if ( animationData.currentStep > animationData.stepsNum ) animationData.currentStep = 1;
 
-
+/*
                 // (1) execute animation func
                 animationData.func();
 
                 // (2) execute step func
                 var f = animationData.stepsFuncs[ animationData.currentStep - 1];
+                if ( typeof f != 'function') f = animationData.stepsFuncs[ animationData.currentStep - 1].func;
                 f();
+*/
+                
+                executeStep( animationData );
 
                 animationData.status = 1; // on going animation
                 animationData.currentStep++;
 
             } else if ( animationData.status === 1) {
 
-                console.log(" - On going animation!");
+                //console.log(" ");
+                //console.log(" - On going animation!");
+                //console.log("   - animationData.stepStartTime:", animationData.stepStartTime );
+                //console.log("   - animationData.milisecondsStep:", animationData.milisecondsStep );
+                //console.log("   - AS.mainAnimation.timestamp:", AS.mainAnimation.timestamp );
 
-                if ( ( animationData.stepStartTime + animationData.milisecondsStep ) < AS.timestamp ) {
 
-                    animationData.stepStartTime = AS.timestamp;
+                if ( ( animationData.stepStartTime + animationData.milisecondsStep ) < AS.mainAnimation.timestamp ) {
 
-                    // do awesome stuff here
+                    console.log(" - On going animation! A");
 
+                    animationData.stepStartTime = AS.mainAnimation.timestamp;
+
+/*
                     // (1) execute animation func
                     animationData.func();
 
                     // (2) execute step func
                     var f = animationData.stepsFuncs[ animationData.currentStep - 1];
+                    if ( typeof f != 'function') f = animationData.stepsFuncs[ animationData.currentStep - 1].func;
                     f();
+*/
+
+                    executeStep( animationData );
 
                     animationData.status = 1; // on going animation
-                    animationData.currentStep++;
+                    
 
-                    if ( animationData.currentStep >= animationData.stepsNum && animationData.repeatForever ) {
+                    if ( animationData.currentStep === animationData.stepsNum && animationData.repeatForever === true ) {
 
-                        animationData.onEnd();
+                        console.log(" - On going animation! A.1");
+
+                        animationData.whenFinish();
 
                         animationData.currentStep = 1;
 
-                    } else {
+                    } else if ( animationData.currentStep === animationData.stepsNum && !animationData.repeatForever ) {
 
-                        animationData.onEnd();
+                        console.log(" - On going animation! A.2");
+
+                        animationData.whenFinish();
+
+                        animationData.status = 3; //"END"
 
                         // destroy animation / remove from array
+                    } else {
+
+                        animationData.currentStep++;
                     }
-                    
+                      
                 }
 
             } else {
+
+                console.log(" - Animation named as: '"+ animationData.name +"' has finished or was stopped, but was not removed from the array of animations.");
+
+                return
 
                 // animationData.status shoiuld be 2 so the animation was paused
             }
