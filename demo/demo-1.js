@@ -7,11 +7,7 @@ AS.init();
 function start() {
     //animationStartTime = window.performance.now();
     //requestId = window.requestAnimationFrame(animate);
-
     AS.startByName("Animation-1");
-
-    x = startx + (destx - startx) * val;
-    $(domEl).css('margin-left', `${x}px`);
 }
 
 function stop() {

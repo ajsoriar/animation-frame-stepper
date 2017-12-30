@@ -141,8 +141,8 @@ window.defaultAnimationStructure = {
 
                 // (2) execute step func
                 var f = animationData.stepsFuncs[ animationData.currentStep - 1];
-                if ( typeof f != 'function') f = animationData.stepsFuncs[ animationData.currentStep - 1].func;
-                f( animationData );
+                if ( typeof f != 'function' && f != null) f = animationData.stepsFuncs[ animationData.currentStep - 1].func;
+                if ( typeof f === 'function' ) f( animationData );
             }
 
             if ( animationData.status === 0) { // Never executed
