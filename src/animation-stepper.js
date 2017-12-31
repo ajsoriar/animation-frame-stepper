@@ -140,12 +140,14 @@ window.defaultAnimationStructure = {
                 animationData.func( animationData );
 
                 // (2) execute step func
-                var f = animationData.stepsFuncs[ animationData.currentStep - 1];
-                if ( typeof f != 'function' && f != null) f = animationData.stepsFuncs[ animationData.currentStep - 1].func;
-                if ( typeof f === 'function' ) f( animationData );
+                if ( animationData.stepsFuncs != undefined ){
+                    var f = animationData.stepsFuncs[ animationData.currentStep - 1];
+                    if ( typeof f != 'function' && f != null) f = animationData.stepsFuncs[ animationData.currentStep - 1].func;
+                    if ( typeof f === 'function' ) f( animationData );                    
+                }
             }
 
-            if ( animationData.status === 0) { // Never executed
+            if ( animationData.status === undefined || animationData.status === 0 ) { // Never executed
 
                 console.log(" - Never executed!");
 
@@ -157,6 +159,7 @@ window.defaultAnimationStructure = {
                 if ( animationData.currentStep === null) animationData.currentStep = 1;
                 if ( animationData.stepsNum === null ) animationData.stepsNum = animationData.stepsFuncs.length;
                 if ( animationData.currentStep > animationData.stepsNum ) animationData.currentStep = 1;
+                if ( animationData.currentStep === undefined ) animationData.currentStep = 0;
 
 /*
                 // (1) execute animation func
@@ -203,11 +206,11 @@ window.defaultAnimationStructure = {
                     animationData.status = 1; // on going animation
                     
 
-                    if ( animationData.currentStep === animationData.stepsNum && animationData.repeatForever === true ) {
+                    if ( animationData.currentStep === animationData.stepsNum && ( animationData.repeatForever === true || animationData.repeatForever === undefined ) ) {
 
                         console.log(" - On going animation! A.1");
 
-                        animationData.whenFinish();
+                        if ( ( typeof animationData.whenFinish) === 'function' ) animationData.whenFinish();
 
                         animationData.currentStep = 1;
 
@@ -215,7 +218,8 @@ window.defaultAnimationStructure = {
 
                         console.log(" - On going animation! A.2");
 
-                        animationData.whenFinish();
+                        //animationData.whenFinish();
+                        if ( ( typeof animationData.whenFinish) === 'function' ) animationData.whenFinish();
 
                         animationData.status = 3; //"END"
 
