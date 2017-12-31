@@ -160,14 +160,13 @@ AS.attachAnimation({
     status: 0, // (0) Stopped, (1) On going.
 })
 
-
 // ------------------------------
-// define animation 1 properties
+// define animation 3 properties
 // ------------------------------
 
 AS.attachAnimation({
     id: null,
-    name: "Animation-3",
+    name: "Animation-1",
     label: null,
     description: "Animation Object Description",
     duration: null,
@@ -195,9 +194,8 @@ AS.attachAnimation({
     status: 0, // (0) Stopped, (1) On going.
 })
 
-
 // ------------------------------
-// define animation 1 properties
+// define animation 4 properties
 // ------------------------------
 
 AS.attachAnimation({
@@ -210,5 +208,22 @@ AS.attachAnimation({
     onStart: function() { 
         console.log( "Andres amimation starts now!");
         window.domEl_4 = $('#animated-4');
+    }
+})
+
+// ------------------------------
+// define animation 5 properties
+// ------------------------------
+
+AS.attachAnimation({
+    stepsNum: 40,
+    milisecondsStep: 10,
+    func: function( _animation ) {
+        console.log("Andres animation function! _animation:", _animation );
+        window.domEl_5.css('margin-left', ( _animation.currentStep * 10 ) +"px");
+    },
+    onStart: function() { 
+        console.log( "Andres amimation starts now!");
+        window.domEl_5 = $('#animated-5');
     }
 })
