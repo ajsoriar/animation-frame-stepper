@@ -101,7 +101,7 @@ AS.attachAnimation({
 AS.attachAnimation({
     id: null,
     name: "Animation-2",
-    label: null,
+    label: "yellow",
     description: null,
     duration: null,
     stepStartTime: null,
@@ -199,6 +199,7 @@ AS.attachAnimation({
 // ------------------------------
 
 AS.attachAnimation({
+    label: "yellow",
     stepsNum: 30,
     milisecondsStep: 500,
     func: function( _animation ) {

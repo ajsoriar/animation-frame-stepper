@@ -9,6 +9,7 @@ as = fuction(){
 */
 
 
+/*
 
 window.defaultAnimationStructure = {
     id: null,
@@ -33,7 +34,7 @@ window.defaultAnimationStructure = {
     status: 0, // (0) Stopped, (1) On going.
 };
 
-
+*/
 
 (function() {
     
@@ -56,19 +57,17 @@ window.defaultAnimationStructure = {
                 },
                 attachedFuncs: [] // array of functions attached to main animation that should be executed.
             },
-            //onAnimationStep: function(){ }
             attachedAnimations: []
         };
 
-        
-    
+
         // ------------------
         // Internal 
         // ------------------
     
         var requestId = 0;
     
-        var animationStartTime = 0;
+        //var animationStartTime = 0;
     
         // ----------------------------------------------------------------------------
 
@@ -95,39 +94,11 @@ window.defaultAnimationStructure = {
             if ( funcsArray === undefined || funcsArray.length === 0 ) return
             var lon = funcsArray.length;
             for ( var i = 0; i < lon; i++ ){
-                //var f = funcsArray[i];
-                //f();
                 doAnimation( funcsArray[i] );
             }
         }
 
         function doAnimation( animationData ){
-
-            /*
-                var defaultAnimationStructure = {
-                    id: null,
-                    name: "Animation Object",
-                    label: null,
-                    description: "Animation Object Description",
-                    duration: null,
-                    stepsNum: 2,
-                    milisecondsStep: 250,
-                    elapsedTime: 0,
-                    repeatForever: false,
-                    repeatTimes: 4,
-                    repeatCounter: 0,
-                    currentStep: null,
-                    func: function() { console.log("func!") },
-                    stepsFuncs: [
-                        function() { console.log("step function 1 ...") },
-                        function() { console.log("step function 2 ...") },
-                    ],
-                    autodestroy: true, // Automatically removes the animation object and functions when the animation finishes
-                    onStart: function() { console.log("Start...") },
-                    whenFinish: function() { console.log("...end!") },
-                    status: 0, // (0) Never executed, (1) On going. (2) Stopped
-                }
-            */
 
             function executeStep( animationData ){
 
@@ -151,8 +122,7 @@ window.defaultAnimationStructure = {
 
                 console.log(" - Never executed!");
 
-                // init timestamp
-                animationData.stepStartTime = AS.mainAnimation.timestamp;
+                animationData.stepStartTime = AS.mainAnimation.timestamp; // init timestamp
 
                 animationData.onStart();
 
@@ -161,16 +131,6 @@ window.defaultAnimationStructure = {
                 if ( animationData.currentStep > animationData.stepsNum ) animationData.currentStep = 1;
                 if ( animationData.currentStep === undefined ) animationData.currentStep = 0;
 
-/*
-                // (1) execute animation func
-                animationData.func();
-
-                // (2) execute step func
-                var f = animationData.stepsFuncs[ animationData.currentStep - 1];
-                if ( typeof f != 'function') f = animationData.stepsFuncs[ animationData.currentStep - 1].func;
-                f();
-*/
-                
                 executeStep( animationData );
 
                 animationData.status = 1; // on going animation
@@ -191,21 +151,10 @@ window.defaultAnimationStructure = {
 
                     animationData.stepStartTime = AS.mainAnimation.timestamp;
 
-/*
-                    // (1) execute animation func
-                    animationData.func();
-
-                    // (2) execute step func
-                    var f = animationData.stepsFuncs[ animationData.currentStep - 1];
-                    if ( typeof f != 'function') f = animationData.stepsFuncs[ animationData.currentStep - 1].func;
-                    f();
-*/
-
                     executeStep( animationData );
 
                     animationData.status = 1; // on going animation
                     
-
                     if ( animationData.currentStep === animationData.stepsNum && ( animationData.repeatForever === true || animationData.repeatForever === undefined ) ) {
 
                         console.log(" - On going animation! A.1");
@@ -247,7 +196,7 @@ window.defaultAnimationStructure = {
         //AS.start = function() {
         //this.start = function() {
         function start() {
-            animationStartTime = Date.now();
+            //animationStartTime = Date.now();
             AS.requestId = window.requestAnimationFrame(animate);
         }
     
@@ -264,21 +213,23 @@ window.defaultAnimationStructure = {
         function attachFunctionToMainAnimation( func ) {
             //AS.mainAnimation.attachedFuncs.push(function(){ console.log("B2!") })
         }
-        */
 
         function attachFunctionToAnimation() {
             //AS.mainAnimation.attachedFuncs.push(function(){ console.log("B2!") })
         }
+        */
 
-        //function attachAnimation( jsonData ) {
         AS.attachAnimation = function( jsonData ) {
-        //};
-            console.log("json:", jsonData );
-            if ( jsonData === undefined || jsonData === null ) jsonData = window.defaultAnimationStructure; //AS.defaultAnimationStructure;
 
             console.log("json:", jsonData );
+
+            if ( jsonData === undefined || jsonData === null ) return //jsonData = window.defaultAnimationStructure;
+
+            if ( jsonData.id === undefined || jsonData.id === null ) jsonData.id = "afs-"+ Date.now();
 
             AS.attachedAnimations.push( jsonData );
+
+            return jsonData.id
         }
     
         // ------------------
@@ -294,6 +245,29 @@ window.defaultAnimationStructure = {
             start();
 
             return this
+        };
+
+        AS.resetAnimationByLabel = function( lbl ){
+
+            if ( lbl === null ) return
+
+            var animationsArr = window.AS.attachedAnimations;
+
+            if ( animationsArr.length === 0 ) return
+
+            var lon = animationsArr.length;
+
+            for ( var i = 0; i < lon; i++ ){
+
+                var obj = animationsArr[i];
+
+                if ( obj.label === lbl ){
+                    // reset
+
+                    obj.currentStep = 0;
+                    obj.status = 0;
+                }
+            }
         };
 
         /*

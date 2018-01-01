@@ -34,3 +34,7 @@ function gotoStep() {
     AS.goToStepByName("Animation-1", 3);
 }
 
+function resetByLabel( lbl ) {
+    AS.resetAnimationByLabel('yellow');
+}
+
