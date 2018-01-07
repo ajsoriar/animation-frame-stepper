@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <title>Script-based animation using requestAnimationFrame</title>
+        <style>
+
+            body {
+                background-color: black;
+                color: rgb(77, 77, 77);
+                background-color: black;
+
+                color: rgb(77, 77, 77);
+                font-family: sans-serif;
+                font-size: 12px;
+                font-weight: 100;
+            }
+
+            .box { 
+                position: relative;
+                left: 10px;
+                padding: 0;
+                background: rgb(31, 31, 31);
+                color: rgb(77, 77, 77);
+                width: 100px;
+                margin-bottom: 10px;
+                height: 25px;
+                display: block;
+                line-height: 25px;
+                text-align: center;
+            }
+
+            .box.white{ color: whitesmoke; }
+            .box.yellow{ color: yellow; }
+            .box.cyan{ color: cyan; }
+
+            ul, li {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            /* Scrolll stuff */
+
+            #main-container{
+                width: 450px; 
+                height:300px; 
+                -border: 2px dashed red;
+                background-color: #191919;
+            }
+
+            #content-container{
+                width: 100%;
+                border: 1px dotted #00b700;
+            }
+
+            .horizontal-scroll{
+                overflow: initial;
+                border: 1px dashed #00BCD4;
+                height: 0px;
+                width: max-content;
+            }
+
+            .vertical-scroll{
+                overflow: hidden;
+                border: 1px solid rgb(211, 136, 255);
+            }
+
+            .target{
+                border: 1px solid darkslategray;
+                min-height: 50px;
+                font-size:0;
+            }
+            .target.horizontal{
+                /* border: 1px solid darkslategray; */
+                display: inline-block;
+                min-width: 95px;
+                min-height: 60px;
+            }
+/*
+            .vertical-scroll li{
+                display: inline-block;
+                width: 100px;
+                height: 30px;
+                background-color: rgb(32, 32, 32);
+                border: 1px solid darkslategray;
+                margin: 0;
+                padding: 0;
+                position: relative;
+            }
+
+            .horizontal-scroll li{
+                display: inline-block;
+                width: 100px;
+                height: 30px;
+                background-color: rgb(32, 32, 32);
+                border: 1px solid darkslategray;
+                margin: 0;
+                padding: 0;
+                position: relative;
+            }
+*/
+
+        </style>
+
+        <script>
+
+            (function() {
+                var lastTime = 0,
+                    vendors = ['ms', 'moz', 'webkit', 'o'],
+                    x,
+                    length,
+                    currTime,
+                    timeToCall;
+
+                for(x = 0, length = vendors.length;
+                x < length && !window.requestAnimationFrame; ++x) {
+                    window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+                    window.cancelAnimationFrame = 
+                    window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+                }
+
+                if (!window.requestAnimationFrame)
+                    window.requestAnimationFrame = function(callback, element) {
+                        currTime = new Date().getTime();
+                        timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                        lastTime = currTime + timeToCall;
+                        return window.setTimeout(function() { callback(currTime + timeToCall); }, 
+                        timeToCall);
+                    };
+
+                if (!window.cancelAnimationFrame)
+                    window.cancelAnimationFrame = function(id) {
+                        clearTimeout(id);
+                    };
+            }());
+
+            // requestAnimationFrame polyfill ends here.
+
+        </script>
+
+    </head>
+    <body>
+
+        <b>Check the console and reload to see this example working</b> <br>
+
+        <!--
+        <button onclick="start()">Click me to start!</button>
+        <button onclick="stop()">Click me to stop!</button>
+        -->
+
+        <button onclick="resetByLabel('yellow')">Click me to rest by label 'yellow'</button>
+
+        <br>
+
+        <div id="animated-3" class="box white">Hello there 3</div>
+        <div id="animated-4" class="box yellow">Hello there 4</div>
+        <div id="animated-5" class="box cyan">Hello there 5</div>
+
+        <div id="main-container">
+            <div id="content-container">
+                <ul class="vertival-scroll">
+                    <li class="target">1</li>
+                    <li class="target">2</li>
+                    <li class="target">3
+                        <ul class="horizontal-scroll">
+                            <li class="target horizontal">a</li>
+                            <li class="target horizontal">b</li>
+                            <li class="target horizontal">c</li>
+                            <li class="target horizontal">d</li>
+                            <li class="target horizontal">e</li>
+                            <li class="target horizontal">f</li>
+                            <li class="target horizontal">g</li>
+                            <li class="target horizontal">h</li>
+                            <li class="target horizontal">i</li>
+                        </ul>
+                    </li>
+                    <li class="target">4</li>
+                    <li class="target">5</li>
+                    <li class="target">6</li>
+                    <li class="target">7</li>
+                    <li class="target">8
+                        <ul class="horizontal-scroll">
+                            <li class="target horizontal">a</li>
+                            <li class="target horizontal">b</li>
+                            <li class="target horizontal">c</li>
+                            <li class="target horizontal">d</li>
+                            <li class="target horizontal">e</li>
+                            <li class="target horizontal">f</li>
+                            <li class="target horizontal">g</li>
+                        </ul>
+                    </li>
+                    <li class="target">9</li>
+                    <li class="target">10</li>
+                </ul>
+            </div>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="./../../src/animation-stepper.js"></script>
+        <script type="text/javascript" src="./demo-5.js"></script>
+        <script type="text/javascript" src="./demo-5-animations.js"></script>
+
+    </body>
+
+</html>
