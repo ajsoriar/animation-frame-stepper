@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <title>Script-based animation using requestAnimationFrame</title>
+        <style>
+
+            body {
+                background-color: black;
+                color: rgb(77, 77, 77);
+                background-color: black;
+
+                color: rgb(77, 77, 77);
+                font-family: sans-serif;
+                font-size: 12px;
+                font-weight: 100;
+            }
+
+            .box { 
+                position: relative;
+                left: 10px;
+                padding: 0;
+                background: rgb(31, 31, 31);
+                color: rgb(77, 77, 77);
+                width: 100px;
+                margin-bottom: 10px;
+                height: 75px;
+                display: block;
+                line-height: 75px;
+                text-align: center;
+            }
+
+            .box.white{ color: whitesmoke; }
+            .box.yellow{ color: yellow; }
+            .box.cyan{ color: cyan; }
+
+        </style>
+
+        <script>
+                
+            (function() {
+                var lastTime = 0,
+                    vendors = ['ms', 'moz', 'webkit', 'o'],
+                    x,
+                    length,
+                    currTime,
+                    timeToCall;
+
+                for(x = 0, length = vendors.length; x < length && !window.requestAnimationFrame; ++x) {
+                    window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+                    window.cancelAnimationFrame = 
+                    window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+                }
+
+                if (!window.requestAnimationFrame)
+                    window.requestAnimationFrame = function(callback, element) {
+                        currTime = new Date().getTime();
+                        timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                        lastTime = currTime + timeToCall;
+                        return window.setTimeout(function() { callback(currTime + timeToCall); }, 
+                        timeToCall);
+                    };
+
+                if (!window.cancelAnimationFrame)
+                    window.cancelAnimationFrame = function(id) {
+                        clearTimeout(id);
+                    };
+            }());
+
+            // requestAnimationFrame polyfill ends here.
+
+        </script>
+
+    </head>
+    <body>
+
+        <button onclick="resetByLabel('yellow')">Click me to rest by label 'yellow'</button>
+
+        <br>
+
+        <div id="animated-1" class="box cyan">Hello there 1</div>
+        <div id="animated-2" class="box yellow">Hello there 2</div>
+        <div id="animated-3" class="box white">Hello there 3</div>
+        <div id="animated-4" class="box yellow">Hello there 4</div>
+        <div id="animated-5" class="box white">Hello there 5</div>
+        
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="./../../src/animation-stepper.js"></script>
+        <script type="text/javascript" src="./demo-6.js"></script>
+        <script type="text/javascript" src="./demo-6-animations.js"></script>
+
+    </body>
+
+</html>
