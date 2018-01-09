@@ -55,14 +55,21 @@ AS.attachAnimation({
 // ------------------------------
 
 AS.attachAnimation({
-    stepsNum: 40,
+    stepsNum: 500,
     milisecondsStep: 10,
     func: function( _animation ) {
         console.log("Andres animation function! _animation:", _animation );
-        window.domEl_5.css('margin-left', ( _animation.currentStep * 10 ) +"px");
+        window.domEl_1.css('margin-left', ( _animation.currentStep * 1 ) +"px");
     },
+    /*
+    stepsFuncs: {
+        "120": function() {
+
+        }
+    },
+    */
     onStart: function() { 
         console.log( "Andres amimation starts now!");
-        window.domEl_5 = $('#animated-5');
+        window.domEl_1 = $('#animated-1');
     }
 })
