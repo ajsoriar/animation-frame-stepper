@@ -1,0 +1,22 @@
+{
+  "name": "animation-frame-stepper",
+  "version": "1.0.0",
+  "description": "animation-frame-stepper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajsoriar/animation-frame-stepper.git"
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/ajsoriar/animation-frame-stepper/issues"
+  },
+  "homepage": "https://github.com/ajsoriar/animation-frame-stepper#readme",
+  "devDependencies": {
+    "webpack": "^3.10.0"
+  }
+}
