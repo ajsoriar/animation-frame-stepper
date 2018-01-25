@@ -299,7 +299,7 @@
         var lon = arrOfLines.length, str = '';
         for ( var i=0; i< lon; i++ ) {
             var v = arrOfLines[i];
-            console.log("v:", v );
+            //console.log("v:", v );
             //str += this.getFastLineString( v[0], v[1], v[2], v[3], v[4], v[5] );
             str += this.getLineString(null, v[0], v[1], v[2], v[3], v[4], v[5], 1, false, 0, null);
         }
