@@ -27,7 +27,7 @@
         </style>
 
         <script>
-                        
+                
             /*
             Opera engineer Erik Möller wrote about rAF and developed a polyfill that better handles 
             browsers without native support. You can read about it, but basically his code will choose 
@@ -95,20 +95,27 @@
             // requestAnimationFrame polyfill ends here.
 
         </script>
-    
+
     </head>
     <body>
 
-        <b>Check the console to see this working</b>
-    
-        <button onclick="window.myFunction('CANCEL-PREVIOWS')">Launch! (Cancel previous)</button>
-        <button onclick="window.myFunction('IF-PREVIOUS-FINISHED')">Launch if previous finished</button>
-        <button onclick="window.myFunction('ADD-TO-QUEUE')">Add to queue.</button>
-        <button onclick="window.myFunction('ADD-TO-QUEUE-IF-ABOUT-TO-FINISH')">Add to queue IF THE MOVEMENT IS ABOUT TO FINISH, 70% or 85%, Step 4... etc </button>
+        <!-- <div id="root"></div> -->
+        <div id="animated">Hello there.</div>
 
-        <div><p id="thing" style="margin-left: 20px;">thing</p></div>
+        <b>Check the console and reload to see this example working</b> <br>
+
+        <!--
+        <button onclick="start()">Click me to start!</button>
+        <button onclick="stop()">Click me to stop!</button>
+        -->
+
+        <br>
+
+        https://www.w3.org/TR/animation-timing/
+    
         <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="./demo-0.js"></script>
+        <script type="text/javascript" src="../src/animation-stepper.js"></script>
+        <script type="text/javascript" src="./demo-1.js"></script>
 
     </body>
 
