@@ -35,6 +35,6 @@ function gotoStep() {
 }
 
 function resetByLabel( lbl ) {
-    AS.resetAnimationByLabel('yellow');
+    AS.resetAnimationByLabel( lbl );
 }
 
