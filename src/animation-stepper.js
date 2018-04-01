@@ -13,18 +13,14 @@
                     this.timestamp = Date.now();
                     //console.log(this.timestamp);
                 },
-
+                flags:{
+                    executeDefaultFunc: true,
+                    executeAttachedFuncs: true
+                },
                 attachedFuncs: [] // array of functions attached to main animation that should be executed.
             },
-            attachedAnimations: [],
-            flags:{
-                executeDefaultFunc: true,
-                executeAttachedFuncs: true,
-                mainFuncFinished: true, // window.AS.flags.mainFuncFinished = false
-                attachedFuncsFinished: true // window.AS.flags.attachedFuncsFinished = false
-            },            
+            attachedAnimations: []
         };
-
 
         // ------------------
         // Internal 
@@ -34,38 +30,29 @@
 
         function animate(time) {
 
-            //if ( window.AS.flags.executeDefaultFunc ) 
+            //if ( window.AS.mainAnimation.flags.executeDefaultFunc ) 
             AS.mainAnimation.defaultFunction();
-            //if ( window.AS.flags.executeAttachedFuncs ) 
-
-            //executeFuncsInMainThreat( window.AS.mainAnimation.attachedFuncs ); // ececutes functions in main threat
-            //executeAttachedAnimations( window.AS.attachedAnimations ); 
-
-            if (window.AS.flags.mainFuncFinished )      executeFuncsInMainThreat( window.AS.mainAnimation.attachedFuncs ); // ececutes functions in main threat
-            if (window.AS.flags.attachedFuncsFinished ) executeAttachedAnimations( window.AS.attachedAnimations ); 
-
+            //if ( window.AS.mainAnimation.flags.executeAttachedFuncs ) 
+            executeFuncsInMainThreat( window.AS.mainAnimation.attachedFuncs ); // ececutes functions in main threat
+            executeAttachedAnimations( window.AS.attachedAnimations ); 
             requestId = window.requestAnimationFrame(animate);
         }
     
         function executeFuncsInMainThreat( funcsArray ) {
-            window.AS.flags.mainFuncFinished = false;
             if ( funcsArray === undefined || funcsArray.length === 0 ) return
             var lon = funcsArray.length;
             for ( var i = 0; i < lon; i++ ){
                 var f = funcsArray[i];
                 f();
             }
-            window.AS.flags.mainFuncFinished = true;
         }
 
         function executeAttachedAnimations( funcsArray ) {
-            window.AS.flags.attachedFuncsFinished = false;
             if ( funcsArray === undefined || funcsArray.length === 0 ) return
             var lon = funcsArray.length;
             for ( var i = 0; i < lon; i++ ){
                 doAnimation( funcsArray[i] );
             }
-            window.AS.flags.attachedFuncsFinished = true;
         }
 
         function doAnimation( animationData ){

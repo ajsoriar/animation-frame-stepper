@@ -55,7 +55,7 @@ AS.attachAnimation({
         console.log("dljs:", dljs );
 
         window.arr = [];
-        var vertexNum = 500; //100;
+        var vertexNum = 100;
         for ( var i=0; i< vertexNum; i++) arr.push({
             "x": dljs.utils.rndX(), 
             "y": dljs.utils.rndY(),
