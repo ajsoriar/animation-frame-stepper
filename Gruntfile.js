@@ -33,7 +33,7 @@ module.exports = function(grunt) {
             },
             my_target: {
                 files: {
-                    'dist/animation-frame-stepper.min.js': ['dist/animation-frame-stepper.js']
+                    'dist/animation-stepper.min.js': ['dist/animation-stepper.js']
                 }
             }
         },

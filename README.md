@@ -1,5 +1,5 @@
-# animation-frame-stepper
-animation-frame-stepper
+# animation-stepper
+animation-stepper
 
 ### Development instructions
 

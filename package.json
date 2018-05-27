@@ -1,26 +1,26 @@
 {
-  "name": "animation-frame-stepper",
+  "name": "animation-stepper",
   "version": "0.0.1",
   "description": "javascript library to manage animations",
-  "main": "dist/animation-frame-stepper.min.js",
+  "main": "dist/animation-stepper.min.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "https://github.com/ajsoriar/animation-frame-stepper.git",
+  "repository": "https://github.com/ajsoriar/animation-stepper.git",
   "keywords": [
     "key-frame",
-    "animation-frame-stepper",
+    "animation-stepper",
     "js-animation"
   ],
   "author": "Andres J. Soria R. <<ajsoriar@gmail.com>>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ajsoriar/animation-frame-stepper/issues"
+    "url": "https://github.com/ajsoriar/animation-stepper/issues"
   },
-  "homepage": "https://github.com/ajsoriar/animation-frame-stepper#readme",
+  "homepage": "https://github.com/ajsoriar/animation-stepper#readme",
   "devDependencies": {
     "grunt": "~0.4",
     "grunt-cleanempty": "^1.0.3",
