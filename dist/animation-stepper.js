@@ -86,7 +86,7 @@
 
             if ( animationData.status === undefined || animationData.status === 0 ) { // 0, Never executed
 
-                console.log(" - Never executed!");
+                //console.log(" - Never executed!");
 
                 animationData.stepStartTime = AS.mainAnimation.timestamp; // init timestamp
 
@@ -139,7 +139,7 @@
 
             } else {
 
-                console.log(" - Animation named as: '"+ animationData.name +"' has finished or was stopped, but was not removed from the array of animations.");
+                //console.log(" - Animation named as: '"+ animationData.name +"' has finished or was stopped, but was not removed from the array of animations.");
 
                 return
 
@@ -163,7 +163,7 @@
     
         AS.attachAnimation = function( jsonData ) {
 
-            console.log("json:", jsonData );
+            //console.log("json:", jsonData );
 
             if ( jsonData === undefined || jsonData === null ) return //jsonData = window.defaultAnimationStructure;
 
@@ -175,7 +175,7 @@
         }
 
         AS.init = function ( el ) {
-            console.log("AS.init()");
+            //console.log("AS.init()");
             start();
             return this
         };
