@@ -4,24 +4,24 @@ function inOutQuad(n) {
     return -0.5 * (--n * (n - 2) - 1);
 }
 
-window.myFunction = function( value ) {
-	//console.log("Do it! stop:", window.stop );
-    
-    if ( value === 'CANCEL-PREVIOWS' ){
-    	console.log("btn. Cancel previous and launch");
-    	startAnimation($('#thing'));
+window.myFunction = function (value) {
+    //console.log("Do it! stop:", window.stop );
+
+    if (value === 'CANCEL-PREVIOWS') {
+        console.log("btn. Cancel previous and launch");
+        startAnimation($('#thing'));
     }
-   
-    if ( value === 'IF-PREVIOUS-FINISHED' ){
-        if ( window.stop != false ) {
-        	startAnimation($('#thing'));
-        }else{
-        	console.log("btn. Previous is running so can't launch");
+
+    if (value === 'IF-PREVIOUS-FINISHED') {
+        if (window.stop != false) {
+            startAnimation($('#thing'));
+        } else {
+            console.log("btn. Previous is running so can't launch");
         }
     }
-    
-    if ( value === 'ADD-TO-QUEUE'){
-    	window.queue++;
+
+    if (value === 'ADD-TO-QUEUE') {
+        window.queue++;
     }
 }
 
@@ -30,28 +30,28 @@ window.queue = 0;
 window.stop = false;
 
 var animation = {};
-animation.afterLaunch = function(){
-	console.log("animation.afterLaunch!");
+animation.afterLaunch = function () {
+    console.log("animation.afterLaunch!");
 };
-animation.whenFinished = function(){
-	console.log("animation.whenFinished!");
-    
+animation.whenFinished = function () {
+    console.log("animation.whenFinished!");
+
     //check the queue
-    if ( window.queue != 0) {
-    	window.queue--;
+    if (window.queue != 0) {
+        window.queue--;
         requestAnimationFrame(startAnim);
     }
 };
-animation.onEveryStep = function(){
-	console.log("animation.onEveryStep!");
+animation.onEveryStep = function () {
+    console.log("animation.onEveryStep!");
 };
 
 function startAnimation(domEl) {
 
-	animation.afterLaunch();
+    animation.afterLaunch();
 
-	window.stop = false;
-    
+    window.stop = false;
+
     // animating x (margin-left) from 20 to 300, for example
     var startx = 20;
     var destx = 300;
@@ -66,12 +66,12 @@ function startAnimation(domEl) {
 
     var numOfSteps = 5;
     var stepTime = duration / (numOfSteps - 1); // 2000/4 = 500ms
-    var stepfunction = function(stepNum, stepTime) {
+    var stepfunction = function (stepNum, stepTime) {
         console.log("doit!", stepNum, " - ", stepTime);
     }
     var stepsCount = 0;
     var stepsTimes = [];
-    
+
     // calculate steps times...
     stepsTimes[0] = 0;
     for (var i = 1; i < numOfSteps; i++) {
@@ -86,7 +86,7 @@ function startAnimation(domEl) {
     }
 
     function draw(now) {
-    
+
         var t = now - start;
         if (t >= stepsTimes[stepsCount]) {
             stepfunction(stepsCount + 1, t);
@@ -95,15 +95,15 @@ function startAnimation(domEl) {
         }
 
         if (window.stop) {
-        	animation.whenFinished();
+            animation.whenFinished();
             return
-        };
-        
+        }
+
         if (now - start >= duration) window.stop = true;
-        
+
         var p = (now - start) / duration;
-        val = inOutQuad(p);
-        x = startx + (destx - startx) * val;
+        var val = inOutQuad(p);
+        var x = startx + (destx - startx) * val;
         $(domEl).css('margin-left', `${x}px`);
         requestAnimationFrame(draw);
     }
