@@ -1,7 +1,7 @@
 {
   "name": "animation-stepper",
   "version": "1.0.0",
-  "description": "javascript library to manage animations",
+  "description": "Javascript library to handle several animations at once using a singleton approach. One window.requestAnimationFrame instance will be running in the background to orchest all animations.",
   "main": "dist/animation-stepper.min.js",
   "directories": {
     "test": "test"

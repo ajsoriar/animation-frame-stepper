@@ -1,6 +1,6 @@
 /**
  * animation-stepper
- * javascript component that prints logs in a DIV layer. It can be useful when dealing with special hardware like Smart TVs or Set-Top Boxes which do not allow debugging.
+ * Javascript library to handle several animations at once using a singleton approach. One window.requestAnimationFrame instance will be running in the background to orchest all animations.
  * @version @@version-number - @@version-date
  * @link https://github.com/ajsoriar/animation-stepper
  * @author Andres J. Soria R. <ajsoriar@gmail.com>
